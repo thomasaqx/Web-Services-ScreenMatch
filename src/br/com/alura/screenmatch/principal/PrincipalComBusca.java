@@ -20,11 +20,10 @@ public class PrincipalComBusca {
         String url = "http://www.omdbapi.com/?t=" + titulo + "&apikey=" + apiKey;
 
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .build();
-        HttpResponse<String> response = client
-                .send(request, HttpResponse.BodyHandlers.ofString());
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
 
     }
 }
