@@ -1,5 +1,8 @@
 package br.com.alura.screenmatch.principal;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import br.com.alura.screenmatch.modelos.Titulo;
 import br.com.alura.screenmatch.modelos.TituloOmdb;
 import com.google.gson.FieldNamingPolicy;
@@ -27,7 +30,9 @@ public class PrincipalComBusca {
         System.out.println("Digite uma série ou um filme: ");
 
         var titulo = leitura.nextLine();
-        var endereco = "http://www.omdbapi.com/?t=" + titulo + "&apikey=" + apiKey;
+        var endereco = "http://www.omdbapi.com/?t=" +
+                URLEncoder.encode(titulo, StandardCharsets.UTF_8) +
+                "&apikey=" + apiKey;
 
 
         //Cria o "mensageiro" (cliente) que fará as requisições
@@ -44,7 +49,15 @@ public class PrincipalComBusca {
         Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
         TituloOmdb meuTituloOmdb = gson.fromJson(json, TituloOmdb.class);
         System.out.println(meuTituloOmdb);
+        try {
+            Titulo meuTitulo = new Titulo(meuTituloOmdb);
+            System.out.println("Título já convertido");
+            System.out.println(meuTitulo);
+        } catch (NumberFormatException e){
+            System.out.println("Ocorreu um erro");
+            System.out.println(e.getMessage());
+        }
 
-        Titulo meuTitulo = new Titulo(meuTituloOmdb);
+        System.out.println("O programa finalizou corretamente");
     }
 }
